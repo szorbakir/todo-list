@@ -1,0 +1,26 @@
+.input-group-text {
+    background: #17a2b8;
+    color: white;
+}
+
+.form-control:focus {
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0 0 5px #17a2b8;
+    /* padding: 3px 0px 3px 3px; */
+    /* margin: 5px 1px 3px 0px; */
+    border: 1px solid #17a2b8;
+}
+
+.btn:hover {
+    transition: all 0.5s ease-in-out;
+}
+
+.btn:focus {
+    background-image: none;
+    outline: 0;
+    box-shadow: none;
+}
+
+#no_todo {
+    transition: all 0.5s ease-in-out;
+}
