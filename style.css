@@ -4,7 +4,7 @@
 }
 
 .form-control:focus {
-    transition: all 0.5s ease-in-out;
+    transition: all 0.25s ease-in-out;
     box-shadow: 0 0 5px #17a2b8;
     /* padding: 3px 0px 3px 3px; */
     /* margin: 5px 1px 3px 0px; */
@@ -12,7 +12,7 @@
 }
 
 .btn:hover {
-    transition: all 0.5s ease-in-out;
+    transition: all 0.25s ease-in-out;
 }
 
 .btn:focus {
@@ -22,5 +22,5 @@
 }
 
 #no_todo {
-    transition: all 0.5s ease-in-out;
+    transition: all 0.25s ease-in-out;
 }

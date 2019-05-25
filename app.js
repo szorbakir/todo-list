@@ -1,11 +1,18 @@
 //* Select elements
-const submit_form = document.getElementById("todo_form_submit");
+const submit_element = document.getElementById("submit_element");
+const submit_button = document.getElementById("submit_button");
 const submit_form_input = document.getElementById("todo_add");
 const todo_list = document.getElementById("list");
 const no_todo = document.getElementById("no_todo");
 const card = document.querySelector(".card");
 const search_form_input = document.getElementById("todo_search");
 const clear_todo_button = document.getElementById("clear_todo");
+
+//* add eventListener for pressing enter button
+document.addEventListener("keypress", pressEnter);
+
+//* add eventListener to the submit button:
+submit_button.addEventListener("click", addTodo);
 
 //* add eventListener to clear button:
 clear_todo_button.addEventListener("click", clearTodo);
@@ -14,13 +21,20 @@ clear_todo_button.addEventListener("click", clearTodo);
 search_form_input.addEventListener("keyup", searchTodo);
 
 //* add eventListener to submit form;
-submit_form.addEventListener("submit", addTodo);
+// submit_element.addEventListener("submit", addTodo);
 
 //* add eventListener when all DOM objects loaded:
 document.addEventListener("DOMContentLoaded", fromStorageToUI);
 
 //* add eventListener to card element:
 card.addEventListener("click", deleteTodo);
+
+//* if user pressess enter submit todo:
+function pressEnter(el) {
+    if (el.key === "Enter") {
+        addTodo(el);
+    }
+}
 
 //* addTodo: get input from form and add to the UI and local storage:
 function addTodo(el) {
@@ -32,6 +46,8 @@ function addTodo(el) {
         addUI(new_todo);
         showAlert("success", "Great! You added a TODO!");
         addStorage(new_todo);
+
+        submit_form_input.value = "";
     }
 
     el.preventDefault();
@@ -47,7 +63,7 @@ function showAlert(type, message) {
     new_alert.appendChild(document.createTextNode(message));
 
     //* add alert element to the submit form
-    submit_form.appendChild(new_alert);
+    submit_element.appendChild(new_alert);
 
     //* after 2.5s remove alert element:
     setTimeout(function() {
@@ -114,10 +130,12 @@ function fromStorageToUI() {
 function deleteTodo(el) {
     //* if target element corresponds close button remove parent list:
     if (el.target.className === "fas fa-times") {
-        const removed_todo = el.target.parentElement.parentElement.textContent;
-        el.target.parentElement.parentElement.remove();
+        if (confirm("Dou you want to delete TODO?")) {
+            const removed_todo = el.target.parentElement.parentElement.textContent;
+            el.target.parentElement.parentElement.remove();
 
-        deleteFromstorage(removed_todo);
+            deleteFromstorage(removed_todo);
+        }
     }
 }
 
@@ -165,12 +183,19 @@ function clearTodo(el) {
     //* remove all TODOs from the UI:
     const list_items = document.querySelectorAll(".list-group-item");
 
-    list_items.forEach(el => {
-        el.remove();
-    });
+    if (confirm("Do you want to delete all TODOs")) {
+        list_items.forEach(el => {
+            el.remove();
+        });
 
-    //* clear local storage:
-    localStorage.clear();
+        //* clear local storage:
+        localStorage.clear();
+
+        //* display "no todo" info if user clear the storage:
+        no_todo.setAttribute("style", "display: block");
+
+        el.preventDefault();
+    }
 }
 
 document.addEventListener("click", showInfo);
@@ -178,11 +203,3 @@ document.addEventListener("click", showInfo);
 function showInfo(el) {
     el.target;
 }
-
-// function showInfo() {
-//     if (JSON.parse(localStorage.getItem("todos")) === null) {
-//         no_todo.setAttribute("style", "display: block");
-//     } else {
-//         no_todo.setAttribute("style", "display: none");
-//     }
-// }
